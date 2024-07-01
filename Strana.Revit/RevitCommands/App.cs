@@ -19,7 +19,6 @@ namespace Strana.Revit.HoleTask.RevitCommands
             _ = CreateRibbonPanel(application);
             return Result.Succeeded;
         }
-
         public RibbonPanel CreateRibbonPanel(UIControlledApplication application, string tabName = "Strana")
         {
             RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName, "ИОС");
@@ -27,7 +26,6 @@ namespace Strana.Revit.HoleTask.RevitCommands
                 "Strana.Revit.HoleTask.RevitCommands.CreateHoleTasks", "Разместить задания на отверстия");
             return ribbonPanel;
         }
-
         private void AddButton(RibbonPanel ribbonPanel, string buttonName, string path, string linkToCommand,
             string toolTip)
         {
@@ -43,7 +41,6 @@ namespace Strana.Revit.HoleTask.RevitCommands
             Button.LargeImage = (ImageSource)new BitmapImage(new Uri(
                 @"/Strana.Revit.HoleTask;component/Resources/holeTask0.png", UriKind.RelativeOrAbsolute));
         }
-
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;
