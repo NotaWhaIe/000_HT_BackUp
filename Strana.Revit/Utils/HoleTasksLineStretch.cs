@@ -23,7 +23,8 @@ namespace Strana.Revit.HoleTask.Utils
                 TransactionHandler.SetWarningResolver(t);
                 t.Start();
 
-                List<FamilyInstance> intersectionWallRectangularCombineList = new List<FamilyInstance>(CollectFamilyInstances.Instance.FamilyInstance1);
+                List<FamilyInstance> intersectionWallRectangularCombineList = new List<FamilyInstance>(
+                    CollectFamilyInstances.Instance.FamilyInstance1);
 
                 foreach (var holeTask in intersectionWallRectangularCombineList)
                 {
@@ -44,10 +45,12 @@ namespace Strana.Revit.HoleTask.Utils
                             holeTask.LookupParameter("Отметка этажа под заданием").Set(lowerLevelElevation);
                         }
 
-                        double zeroLevelElevation = DistanceFromZeroElevationLevelToFamilyInstance(doc, intersectionCurveCenter);
+                        double zeroLevelElevation = DistanceFromZeroElevationLevelToFamilyInstance(doc,
+                            intersectionCurveCenter);
                         if (zeroLevelElevation != -1)
                         {
-                            if (holeTask?.LookupParameter("ADSK_Отверстие_Отметка от нуля") is { IsReadOnly: false } parameter) parameter.Set(zeroLevelElevation);
+                            if (holeTask?.LookupParameter("ADSK_Отверстие_Отметка от нуля") is { IsReadOnly: false }
+                            parameter) parameter.Set(zeroLevelElevation);
                         }
                     }
                 }

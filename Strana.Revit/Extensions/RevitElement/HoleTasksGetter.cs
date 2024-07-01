@@ -8,8 +8,15 @@ using System.Threading.Tasks;
 
 namespace Strana.Revit.HoleTask.Extensions.RevitElement
 {
-    public static class HoleTasksGetter
+    public class HoleTasksGetter
     {
+        private readonly Document doc;
+
+        public HoleTasksGetter(Document doc)
+        {
+            this.doc = doc;
+        }
+
         public static void FilterFamilyInstancesToList(IEnumerable<FamilyInstance> collector, string familyName,
             List<FamilyInstance> list, string parameterName, string parameterValue)
         {
@@ -110,7 +117,7 @@ namespace Strana.Revit.HoleTask.Extensions.RevitElement
 
                 _list4 = temporaryList;
             }
-
+             
             public void ClearDataFamilyInstance()
             {
                 _list0 = Enumerable.Empty<FamilyInstance>();

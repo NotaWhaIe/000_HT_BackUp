@@ -39,13 +39,18 @@ namespace Strana.Revit.HoleTask.RevitCommands
 
             HoleTaskView taskView = new(doc);
             taskView.ShowDialog();
-            
+
+            HoleTasksGetter holeTasksGetter = new HoleTasksGetter(doc);
+
+            CollectFamilyInstances.Instance.AddToListLevels(doc);
+            CollectFamilyInstances.Instance.AddToListGrids(doc);
             CollectFamilyInstances.Instance.AddToListFamilyInstances(doc,
                 "(Отв_Задание)_Стены_Прямоугольное", "(Отв_Задание)_Перекрытия_Прямоугольное");
-            CollectFamilyInstances.Instance.AddToListLevels(doc);
 
-            IEnumerable<FamilyInstance> intersectionRectangularWall = new List<FamilyInstance>(CollectFamilyInstances.Instance.FamilyInstance1);
-            IEnumerable<FamilyInstance> intersectionRectangularFloor = new List<FamilyInstance>(CollectFamilyInstances.Instance.FamilyInstance2);
+            IEnumerable<FamilyInstance> intersectionRectangularWall = new List<FamilyInstance>(
+                CollectFamilyInstances.Instance.FamilyInstance1);
+            IEnumerable<FamilyInstance> intersectionRectangularFloor = new List<FamilyInstance>(
+                CollectFamilyInstances.Instance.FamilyInstance2);
 
             GlobalParameters.ExistingTaskWall = intersectionRectangularWall;
             GlobalParameters.ExistingTaskFloor = intersectionRectangularFloor;
@@ -88,16 +93,21 @@ namespace Strana.Revit.HoleTask.RevitCommands
                     CollectFamilyInstances.Instance.ClearDataFamilyInstance();
                     CollectFamilyInstances.Instance.AddToListFamilyInstances(doc,
                         "(Отв_Задание)_Стены_Прямоугольное", "(Отв_Задание)_Перекрытия_Прямоугольное");
-                    IEnumerable<FamilyInstance> intersectionWallRectangularCombineList01 = new List<FamilyInstance>(CollectFamilyInstances.Instance.FamilyInstance1);
-                    IEnumerable<FamilyInstance> intersectionFloorRectangularCombineList02 = new List<FamilyInstance>(CollectFamilyInstances.Instance.FamilyInstance2);
+                    IEnumerable<FamilyInstance> intersectionWallRectangularCombineList01 = new List<FamilyInstance>(
+                        CollectFamilyInstances.Instance.FamilyInstance1);
+                    IEnumerable<FamilyInstance> intersectionFloorRectangularCombineList02 = new List<FamilyInstance>(
+                        CollectFamilyInstances.Instance.FamilyInstance2);
 
                     new HoleTasksLineStretch().StretchLinesAllHoleTask(doc);
 
-                    double createdTasksWall = intersectionWallRectangularCombineList01.Count() - intersectionRectangularWall.Count();
+                    double createdTasksWall = intersectionWallRectangularCombineList01.Count() - 
+                        intersectionRectangularWall.Count();
                     GlobalParameters.СreatedTasksWall = (createdTasksWall > 0 ? createdTasksWall : 0).ToString();
-                    double createdTasksFloor = intersectionFloorRectangularCombineList02.Count() - intersectionRectangularFloor.Count();
+                    double createdTasksFloor = intersectionFloorRectangularCombineList02.Count() - 
+                        intersectionRectangularFloor.Count();
                     GlobalParameters.СreatedTasksFloor = (createdTasksFloor > 0 ? createdTasksFloor : 0).ToString();
-                    double deletedTasks = -((createdTasksFloor < 0 ? createdTasksFloor : 0) + (createdTasksWall < 0 ? createdTasksWall : 0));
+                    double deletedTasks = -((createdTasksFloor < 0 ? createdTasksFloor : 0) + (createdTasksWall < 0 ?
+                        createdTasksWall : 0));
                     GlobalParameters.DeletedTasks = deletedTasks.ToString();
 
                     gt.Assimilate();

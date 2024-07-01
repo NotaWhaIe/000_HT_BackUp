@@ -25,7 +25,7 @@ namespace Strana.Revit.HoleTask.Utils
             double roundHoleTaskInPlane = WpfSettings.RoundHoleTaskInPlane;
 
             IEnumerable<Grid> grid = new List<Grid>(CollectFamilyInstances.Instance.Grid);
-            XYZ leftBottomIntersection = FindLeftBottomIntersection(grid);
+           XYZ leftBottomIntersection = FindLeftBottomIntersection(grid);
 
             double toGrid1 = UnitUtils.ConvertFromInternalUnits(intersectionCenter.X - leftBottomIntersection.X, UnitTypeId.Millimeters);
             double toGridA = UnitUtils.ConvertFromInternalUnits(intersectionCenter.Y - leftBottomIntersection.Y, UnitTypeId.Millimeters);
