@@ -44,16 +44,6 @@ namespace Strana.Revit.HoleTask.RevitCommands
                 @"/Strana.Revit.HoleTask;component/Resources/holeTask0.png", UriKind.RelativeOrAbsolute));
         }
 
-        private void AddHelpEventHandler(RibbonPanel ribbonPanel)
-        {
-            var pushButton = ribbonPanel.GetItems().FirstOrDefault(item => item.Name == "Задание\nна отверстия")
-                as PushButton;
-            if (pushButton != null)
-            {
-                pushButton.SetContextualHelp(new ContextualHelp(ContextualHelpType.Url, "https://t.me/NotaWhaIe"));
-            }
-        }
-
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;
