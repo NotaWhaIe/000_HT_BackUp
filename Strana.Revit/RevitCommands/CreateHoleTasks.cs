@@ -39,7 +39,7 @@ namespace Strana.Revit.HoleTask.RevitCommands
 
             HoleTaskView taskView = new(doc);
             taskView.ShowDialog();
-
+            
             CollectFamilyInstances.Instance.AddToListFamilyInstances(doc,
                 "(Отв_Задание)_Стены_Прямоугольное", "(Отв_Задание)_Перекрытия_Прямоугольное");
             CollectFamilyInstances.Instance.AddToListLevels(doc);
@@ -57,7 +57,7 @@ namespace Strana.Revit.HoleTask.RevitCommands
                 using (var gt = new TransactionGroup(doc, "HoleTasks"))
                 {
                     gt.Start();
-
+                    
                     SabFamilyInstenceCollections.GetFamilyInstenceCollections(doc);
 
                     var viewModel = taskView.DataContext as HoleTaskViewModel;
@@ -70,7 +70,7 @@ namespace Strana.Revit.HoleTask.RevitCommands
                                 return index == -1 ? link.Name : link.Name.Substring(0, index);
                             })
                             .ToList();
-
+                        
                         var linkInstances = new FilteredElementCollector(doc)
                             .OfClass(typeof(RevitLinkInstance))
                             .Cast<RevitLinkInstance>();
@@ -84,7 +84,7 @@ namespace Strana.Revit.HoleTask.RevitCommands
                             }
                         }
                     }
-
+                     
                     CollectFamilyInstances.Instance.ClearDataFamilyInstance();
                     CollectFamilyInstances.Instance.AddToListFamilyInstances(doc,
                         "(Отв_Задание)_Стены_Прямоугольное", "(Отв_Задание)_Перекрытия_Прямоугольное");
@@ -125,7 +125,7 @@ namespace Strana.Revit.HoleTask.RevitCommands
             return sortedIds;
         }
     }
-
+    
     public static class docsaver
     {
         public static Document doc { get; set; }

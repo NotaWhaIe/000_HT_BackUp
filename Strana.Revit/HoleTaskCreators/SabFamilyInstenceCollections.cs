@@ -18,8 +18,6 @@ namespace Strana.Revit.HoleTask.ElementCollections
     {
         public static void GetFamilyInstenceCollections(Document doc)
         {
-            //Document doc = commandData.Application.ActiveUIDocument.Document;
-
             var nestedFamilyNames = new List<string>
             {
                 "(Отв_Задание)_Стены_Прямоугольное",
@@ -32,12 +30,7 @@ namespace Strana.Revit.HoleTask.ElementCollections
                 trans.Start();
 
                 IEnumerable<Level> levels = new List<Level>(CollectFamilyInstances.Instance.Level);
-
-                var allInstances = new FilteredElementCollector(doc)
-                    .OfClass(typeof(FamilyInstance))
-                    .WhereElementIsNotElementType()
-                    .Cast<FamilyInstance>()
-                    .ToList();
+                IEnumerable<FamilyInstance> allInstances = new List<FamilyInstance>(CollectFamilyInstances.Instance.FamilyInstance0);
 
                 foreach (var instance in allInstances)
                 {
@@ -58,7 +51,7 @@ namespace Strana.Revit.HoleTask.ElementCollections
                                     double offset = locationPoint.Point.Z - chosenLevel.Elevation;
 
 
-                                    if (CanPlaceFamilyInstanceAtLocation(doc, locationPoint.Point, nestedFamilyNames))
+                                    if (CanPlaceFamilyInstanceAtLocation(allInstances, locationPoint.Point, nestedFamilyNames))
                                     {
                                         FamilyInstance newInstance = CreateFamilyInstanceWithLevel(doc, nestedInstance, locationPoint.Point, chosenLevel, offset);
                                         CopyParameters(nestedInstance, newInstance);
@@ -107,17 +100,12 @@ namespace Strana.Revit.HoleTask.ElementCollections
             return newInstance;
         }
 
-        public static bool CanPlaceFamilyInstanceAtLocation(Document doc, XYZ location, List<string> familyNames)
+        public static bool CanPlaceFamilyInstanceAtLocation(IEnumerable<FamilyInstance> familyInstances, XYZ location, List<string> familyNames)
         {
             const double tolerance = 0.01; // Небольшой допуск для сравнения координат
 
-            // Собираем все экземпляры семейств, которые не являются типами элементов
-            var collector = new FilteredElementCollector(doc)
-                .OfClass(typeof(FamilyInstance))
-                .WhereElementIsNotElementType()
-                .Cast<FamilyInstance>();
-
-            foreach (FamilyInstance fi in collector)
+            // Перебираем все экземпляры семейств
+            foreach (FamilyInstance fi in familyInstances)
             {
                 XYZ existingLocation = (fi.Location as LocationPoint)?.Point;
 
@@ -142,8 +130,6 @@ namespace Strana.Revit.HoleTask.ElementCollections
             // Если в указанных координатах нет семейства с заданным именем и без вложенных компонентов, возвращаем true
             return true;
         }
-
-
 
         public static void CopyParameters(FamilyInstance originalInstance, FamilyInstance newInstance)
         {

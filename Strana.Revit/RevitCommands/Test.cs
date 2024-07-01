@@ -18,7 +18,7 @@ namespace Strana.Revit.HoleTask.RevitCommands
             {
                 ShowCompliment();
             }
-
+            
             using (Transaction tx = new Transaction(doc))
             {
                 tx.Start("Проверка марок перемычек, окон и витражей");
@@ -27,9 +27,9 @@ namespace Strana.Revit.HoleTask.RevitCommands
                 bool hasStructuralFraming = new FilteredElementCollector(doc, doc.ActiveView.Id)
                     .OfCategory(BuiltInCategory.OST_StructuralFraming)
                     .Any();
-
+                
                 IEnumerable<Element> filteredElements;
-
+                
                 if (!hasStructuralFraming)
                 {
                     filteredElements = new FilteredElementCollector(doc)

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using static Strana.Revit.HoleTask.Extensions.RevitElement.HoleTasksGetter;
+
 namespace Strana.Revit.HoleTask.Utils
 {
     internal class GridRoundUpDimension
@@ -22,7 +24,8 @@ namespace Strana.Revit.HoleTask.Utils
             }
             double roundHoleTaskInPlane = WpfSettings.RoundHoleTaskInPlane;
 
-            XYZ leftBottomIntersection = FindLeftBottomIntersection(doc);
+            IEnumerable<Grid> grid = new List<Grid>(CollectFamilyInstances.Instance.Grid);
+            XYZ leftBottomIntersection = FindLeftBottomIntersection(grid);
 
             double toGrid1 = UnitUtils.ConvertFromInternalUnits(intersectionCenter.X - leftBottomIntersection.X, UnitTypeId.Millimeters);
             double toGridA = UnitUtils.ConvertFromInternalUnits(intersectionCenter.Y - leftBottomIntersection.Y, UnitTypeId.Millimeters);
@@ -67,22 +70,18 @@ namespace Strana.Revit.HoleTask.Utils
             }
         }
 
-        public static XYZ FindLeftBottomIntersection(Document doc)
+        public static XYZ FindLeftBottomIntersection(IEnumerable<Grid> grids)
         {
-            var grids = new FilteredElementCollector(doc)
-                        .OfClass(typeof(Grid))
-                        .Cast<Grid>()
-                        .ToList();
-
             List<XYZ> intersectionPoints = new List<XYZ>();
+            List<Grid> gridList = grids.ToList();
 
-            for (int i = 0; i < grids.Count; i++)
+            for (int i = 0; i < gridList.Count; i++)
             {
-                var curve1 = grids[i].Curve;
+                var curve1 = gridList[i].Curve;
 
-                for (int j = i + 1; j < grids.Count; j++)
+                for (int j = i + 1; j < gridList.Count; j++)
                 {
-                    var curve2 = grids[j].Curve;
+                    var curve2 = gridList[j].Curve;
 
                     IntersectionResultArray results;
                     SetComparisonResult result = curve1.Intersect(curve2, out results);
@@ -97,10 +96,9 @@ namespace Strana.Revit.HoleTask.Utils
                 }
             }
 
-            // Находим точку с минимальными X и Y среди всех точек пересечения
             if (intersectionPoints.Count == 0)
             {
-                return null; // Нет пересечений
+                return null;
             }
 
             return intersectionPoints.OrderBy(p => p.X).ThenBy(p => p.Y).FirstOrDefault();

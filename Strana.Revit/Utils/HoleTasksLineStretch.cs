@@ -35,13 +35,13 @@ namespace Strana.Revit.HoleTask.Utils
                         double upperLevelElevation = ElevationOfNearestUpperLevel(doc, intersectionCurveCenter);
                         if (upperLevelElevation != -1)
                         {
-                            holeTask.LookupParameter("Отметка этажа над заданием").Set(upperLevelElevation - 870 / 304.8);
+                            holeTask.LookupParameter("Отметка этажа над заданием").Set(upperLevelElevation );
                         }
 
                         double lowerLevelElevation = ElevationOfNearestLowerLevel(doc, intersectionCurveCenter);
                         if (lowerLevelElevation != -1)
                         {
-                            holeTask.LookupParameter("Отметка этажа под заданием").Set(lowerLevelElevation-870/304.8);
+                            holeTask.LookupParameter("Отметка этажа под заданием").Set(lowerLevelElevation);
                         }
 
                         double zeroLevelElevation = DistanceFromZeroElevationLevelToFamilyInstance(doc, intersectionCurveCenter);
@@ -101,8 +101,7 @@ namespace Strana.Revit.HoleTask.Utils
             //    .OfClass(typeof(Level))
             //    .Cast<Level>();
             IEnumerable<Level> levels = new List<Level>(CollectFamilyInstances.Instance.Level);
-
-
+            
             // Ищем уровень с отметкой, равной нулю
             Level zeroElevationLevel = levels.FirstOrDefault(level =>
                 Math.Abs(level.get_Parameter(BuiltInParameter.LEVEL_ELEV).AsDouble()) < 0.001);

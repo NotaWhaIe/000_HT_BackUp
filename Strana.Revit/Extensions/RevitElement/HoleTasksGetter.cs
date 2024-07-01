@@ -10,28 +10,6 @@ namespace Strana.Revit.HoleTask.Extensions.RevitElement
 {
     public static class HoleTasksGetter
     {
-        public static void AddFamilyInstancesToList(Document doc, string familyName, List<FamilyInstance> list)
-        {
-            var collector = new FilteredElementCollector(doc)
-                .OfClass(typeof(FamilyInstance))
-                .WhereElementIsNotElementType()
-                .ToElements().ToList();
-
-            foreach (FamilyInstance fi in collector)
-            {
-                // Проверяем, соответствует ли имя семейства и является ли семейство родительским
-                if (fi.Name == familyName && fi.SuperComponent == null)
-                {
-                    // Проверяем, имеет ли семейство вложенные компоненты
-                    var subComponentIds = fi.GetSubComponentIds();
-                    if (!subComponentIds.Any())
-                    {
-                        // Если у семейства нет вложенных компонентов, добавляем его в список
-                        list.Add(fi);
-                    }
-                }
-            }
-        }
         public static void FilterFamilyInstancesToList(IEnumerable<FamilyInstance> collector, string familyName,
             List<FamilyInstance> list, string parameterName, string parameterValue)
         {
@@ -54,9 +32,11 @@ namespace Strana.Revit.HoleTask.Extensions.RevitElement
         public class CollectFamilyInstances
         {
             private static CollectFamilyInstances _instance;
-            private readonly List<FamilyInstance> _list1 = new List<FamilyInstance>();
-            private readonly List<FamilyInstance> _list2 = new List<FamilyInstance>();
-            private readonly List<Level> _list3 = new List<Level>();
+            private IEnumerable<FamilyInstance> _list0 = Enumerable.Empty<FamilyInstance>();
+            private IEnumerable<FamilyInstance> _list1 = Enumerable.Empty<FamilyInstance>();
+            private IEnumerable<FamilyInstance> _list2 = Enumerable.Empty<FamilyInstance>();
+            private IEnumerable<Level> _list3 = Enumerable.Empty<Level>();
+            private IEnumerable<Grid> _list4 = Enumerable.Empty<Grid>();
 
             public static CollectFamilyInstances Instance
             {
@@ -70,14 +50,20 @@ namespace Strana.Revit.HoleTask.Extensions.RevitElement
                 }
             }
 
-            public IReadOnlyList<FamilyInstance> FamilyInstance1 => _list1;
-            public IReadOnlyList<FamilyInstance> FamilyInstance2 => _list2;
-            public IReadOnlyList<Level> Level => _list3;
+            public IEnumerable<FamilyInstance> FamilyInstance0 => _list0;
+            public IEnumerable<FamilyInstance> FamilyInstance1 => _list1;
+            public IEnumerable<FamilyInstance> FamilyInstance2 => _list2;
+            public IEnumerable<Level> Level => _list3;
+            public IEnumerable<Grid> Grid => _list4;
 
             private CollectFamilyInstances() { }
 
             public void AddToListFamilyInstances(Document doc, string familyName1, string familyName2)
             {
+                List<FamilyInstance> temporaryList0 = new List<FamilyInstance>();
+                List<FamilyInstance> temporaryList1 = new List<FamilyInstance>();
+                List<FamilyInstance> temporaryList2 = new List<FamilyInstance>();
+
                 var collector = new FilteredElementCollector(doc)
                     .OfClass(typeof(FamilyInstance))
                     .WhereElementIsNotElementType()
@@ -85,39 +71,61 @@ namespace Strana.Revit.HoleTask.Extensions.RevitElement
 
                 foreach (FamilyInstance fi in collector)
                 {
+                    temporaryList0.Add(fi);
                     if (fi.SuperComponent == null && !fi.GetSubComponentIds().Any())
                     {
                         if (fi.Symbol.FamilyName == familyName1)
                         {
-                            _list1.Add(fi);
+                            temporaryList1.Add(fi);
                         }
                         else if (fi.Symbol.FamilyName == familyName2)
                         {
-                            _list2.Add(fi);
+                            temporaryList2.Add(fi);
                         }
                     }
                 }
+
+                _list0 = temporaryList0;
+                _list1 = temporaryList1;
+                _list2 = temporaryList2;
             }
-            
+
             public void AddToListLevels(Document doc)
             {
-                var levels = new FilteredElementCollector(doc)
-                    .OfCategory(BuiltInCategory.OST_Levels)
-                     .WhereElementIsNotElementType()
-                     .Cast<Level>()
-                     .ToList();
+                List<Level> temporaryList = new List<Level>();
+                temporaryList.AddRange(new FilteredElementCollector(doc)
+                    .OfClass(typeof(Level))
+                    .Cast<Level>()
+                    .OrderBy(l => l.Elevation));
 
-                _list3.AddRange(levels);
+                _list3 = temporaryList;
             }
+
+            public void AddToListGrids(Document doc)
+            {
+                List<Grid> temporaryList = new List<Grid>();
+                temporaryList.AddRange(new FilteredElementCollector(doc)
+                    .OfClass(typeof(Grid))
+                    .Cast<Grid>());
+
+                _list4 = temporaryList;
+            }
+
             public void ClearDataFamilyInstance()
             {
-                _list1.Clear();
-                _list2.Clear();
+                _list0 = Enumerable.Empty<FamilyInstance>();
+                _list1 = Enumerable.Empty<FamilyInstance>();
+                _list2 = Enumerable.Empty<FamilyInstance>();
             }
 
             public void ClearDataLevel()
             {
-                _list3.Clear();
+                _list3 = Enumerable.Empty<Level>();
+            }
+
+            public void ClearDataGrid()
+            {
+                _list4 = Enumerable.Empty<Grid>();
             }
         }
     }

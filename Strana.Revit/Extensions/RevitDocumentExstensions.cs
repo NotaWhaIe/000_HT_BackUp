@@ -28,9 +28,10 @@ namespace Strana.Revit.Extension
         public static IEnumerable<RevitLinkInstance> GetAllRevitLinkInstances(this Document doc)
         {
             return new FilteredElementCollector(doc)
-                .OfClass(typeof(RevitLinkInstance))
-                .WhereElementIsNotElementType()
-                .Cast<RevitLinkInstance>();
+                    .OfClass(typeof(RevitLinkInstance))
+                    .WhereElementIsNotElementType()
+                    .Cast<RevitLinkInstance>()
+                    .Where(link => link.GetLinkDocument() != null);
         }
 
         /// <summary>

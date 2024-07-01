@@ -12,6 +12,7 @@ namespace Strana.Revit.HoleTask.RevitCommands
 {
     public class App : IExternalApplication
     {
+        string helpURL = "https://t.me/NotaWhaIe";
         public Result OnStartup(UIControlledApplication application)
         {
             application.CreateRibbonTab("Strana");
@@ -22,22 +23,40 @@ namespace Strana.Revit.HoleTask.RevitCommands
         public RibbonPanel CreateRibbonPanel(UIControlledApplication application, string tabName = "Strana")
         {
             RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName, "ИОС");
-            AddPushButton(ribbonPanel, "Задание\nна отверстия", Assembly.GetExecutingAssembly().Location, "Strana.Revit.HoleTask.RevitCommands.CreateHoleTasks", "Разместить задания на отверстия");
+            AddButton(ribbonPanel, "Задание\nна отверстия", Assembly.GetExecutingAssembly().Location,
+                "Strana.Revit.HoleTask.RevitCommands.CreateHoleTasks", "Разместить задания на отверстия");
             return ribbonPanel;
         }
 
-        public void AddPushButton(RibbonPanel ribbonPanel, string buttonName, string path, string linkToCommand, string toolTip)
+        private void AddButton(RibbonPanel ribbonPanel, string buttonName, string path, string linkToCommand,
+            string toolTip)
         {
-            var buttonData = new PushButtonData(buttonName, buttonName, path, linkToCommand);
-            var button = ribbonPanel.AddItem(buttonData) as PushButton;
-            button.ToolTip = toolTip;
-            button.LargeImage = (ImageSource)new BitmapImage(new Uri(@"/Strana.Revit.HoleTask;component/Resources/holeTask0.png", UriKind.RelativeOrAbsolute));
+            PushButtonData buttonData = new PushButtonData(
+               buttonName,
+               buttonName,
+               path,
+               linkToCommand);
+            ContextualHelp contextualHelp = new ContextualHelp(ContextualHelpType.Url, helpURL);
+            buttonData.SetContextualHelp(contextualHelp);
+            PushButton Button = ribbonPanel.AddItem(buttonData) as PushButton;
+            Button.ToolTip = toolTip;
+            Button.LargeImage = (ImageSource)new BitmapImage(new Uri(
+                @"/Strana.Revit.HoleTask;component/Resources/holeTask0.png", UriKind.RelativeOrAbsolute));
+        }
+
+        private void AddHelpEventHandler(RibbonPanel ribbonPanel)
+        {
+            var pushButton = ribbonPanel.GetItems().FirstOrDefault(item => item.Name == "Задание\nна отверстия")
+                as PushButton;
+            if (pushButton != null)
+            {
+                pushButton.SetContextualHelp(new ContextualHelp(ContextualHelpType.Url, "https://t.me/NotaWhaIe"));
+            }
         }
 
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;
         }
-
     }
 }

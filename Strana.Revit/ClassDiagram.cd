@@ -4,7 +4,7 @@
     <Position X="9.024" Y="4.535" Height="0.503" Width="0.7" />
   </Comment>
   <Comment CommentText="Collector">
-    <Position X="8.985" Y="5.323" Height="0.291" Width="0.7" />
+    <Position X="8.985" Y="5.323" Height="0.562" Width="0.7" />
   </Comment>
   <Comment CommentText="set CollectFamilyInstances get">
     <Position X="9.045" Y="1.523" Height="0.513" Width="1.763" />
@@ -46,7 +46,7 @@
     <Position X="11.645" Y="16.204" Height="0.291" Width="1.104" />
   </Comment>
   <Comment CommentText="">
-    <Position X="9" Y="5.882" Height="9.021" Width="0.7" />
+    <Position X="9" Y="6.059" Height="8.844" Width="0.7" />
   </Comment>
   <Comment CommentText="">
     <Position X="9.806" Y="9.848" Height="0.291" Width="5.658" />
@@ -61,10 +61,10 @@
     <Position X="9.889" Y="13.82" Height="0.291" Width="4.811" />
   </Comment>
   <Comment CommentText="Collector levels">
-    <Position X="11.279" Y="3.725" Height="0.291" Width="1.104" />
+    <Position X="11.31" Y="3.715" Height="0.291" Width="1.104" />
   </Comment>
   <Comment CommentText="Collector FI">
-    <Position X="11.333" Y="4.022" Height="0.291" Width="0.907" />
+    <Position X="11.343" Y="4.105" Height="0.291" Width="0.907" />
   </Comment>
   <Class Name="Strana.Revit.HoleTask.Confing" Collapsed="true">
     <Position X="8.25" Y="20.75" Width="1.5" />
@@ -108,7 +108,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Strana.Revit.HoleTask.Extensions.IntersectingElementExtension" Collapsed="true">
-    <Position X="12.5" Y="6" Width="2" />
+    <Position X="12.5" Y="6" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>Extensions\IntersectingElementExtension.cs</FileName>
@@ -124,7 +124,7 @@
   <Class Name="Strana.Revit.HoleTask.Extensions.RevitElement.HoleTasksGetter" Collapsed="true">
     <Position X="9" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Extensions\RevitElement\HoleTasksGetter.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -176,7 +176,7 @@
   <Class Name="Strana.Revit.HoleTask.Utils.HoleTaskCreator" Collapsed="true">
     <Position X="16.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACAEgAAAAAAIAAAAMAIIAAAAAIoAAAkAAAAkAEAAAEA=</HashCode>
+      <HashCode>AAAEgAAAAAAIAAAAMAIIAAAAAIIAAAkAAAAkAEAAAEA=</HashCode>
       <FileName>HoleTaskCreators\HoleTaskCreator.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -280,14 +280,6 @@
       <FileName>RevitCommands\CreateHoleTasks.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Strana.Revit.HoleTask.RevitCommands.Test" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="8.25" Y="24" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAAAABAAAAAAAAIAAACAAAAAAA=</HashCode>
-      <FileName>RevitCommands\Test.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
   <Class Name="Strana.Revit.NavisReportViewer.ViewModels.Base.BaseViewModel" Collapsed="true">
     <Position X="7" Y="17.75" Width="1.5" />
     <TypeIdentifier>
@@ -362,6 +354,14 @@
       <HashCode>AAAAIAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Extensions\RevitDocumentExstensions.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Strana.Revit.HoleTask.RevitCommands.Test" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="24" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAABAAAAAAAAIAAACAAAAAAA=</HashCode>
+      <FileName>RevitCommands\Test.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Enum Name="Strana.Revit.HoleTask.Utils.OrientaionType" Collapsed="true">
     <Position X="18" Y="10.25" Width="1.5" />
