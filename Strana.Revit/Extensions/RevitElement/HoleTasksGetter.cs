@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/// В данном классе изменить код, передав this.doc во все методы
 namespace Strana.Revit.HoleTask.Extensions.RevitElement
 {
     public class HoleTasksGetter
@@ -17,6 +17,7 @@ namespace Strana.Revit.HoleTask.Extensions.RevitElement
             this.doc = doc;
         }
 
+        
         public static void FilterFamilyInstancesToList(IEnumerable<FamilyInstance> collector, string familyName,
             List<FamilyInstance> list, string parameterName, string parameterValue)
         {
